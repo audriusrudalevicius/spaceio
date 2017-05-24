@@ -1,17 +1,17 @@
-package spaceio.game.controller;
+package spaceio.launcher.controller;
 
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
-import spaceio.game.MainGame;
+import spaceio.launcher.Launcher;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StartGameController extends StackPane implements Initializable {
 
-    private MainGame application;
+    private Launcher application;
 
-    public void setApp(MainGame application) {
+    public void setApp(Launcher application) {
         this.application = application;
     }
 

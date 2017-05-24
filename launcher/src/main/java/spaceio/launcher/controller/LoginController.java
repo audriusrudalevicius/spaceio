@@ -1,4 +1,4 @@
-package spaceio.game.controller;
+package spaceio.launcher.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,7 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import spaceio.game.MainGame;
+import javafx.scene.layout.VBox;
+import spaceio.launcher.Launcher;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,10 +23,15 @@ public class LoginController extends AnchorPane implements Initializable {
     Button login;
     @FXML
     Label errorMessage;
+    @FXML
+    VBox vbox;
 
-    private MainGame application;
+    private Launcher application;
 
-    public void setApp(MainGame application){
+    private static double xOffset = 0;
+    private static double yOffset = 0;
+
+    public void setApp(Launcher application){
         this.application = application;
     }
 
@@ -34,12 +40,20 @@ public class LoginController extends AnchorPane implements Initializable {
         errorMessage.setText("");
         userId.setPromptText("demo");
         password.setPromptText("demo");
+
+        this.vbox.setOnMousePressed(event -> {
+            xOffset = application.getStage().getX() - event.getScreenX();
+            yOffset = application.getStage().getY() - event.getScreenY();
+        });
+
+        this.vbox.setOnMouseDragged(event -> {
+            application.getStage().setX(event.getScreenX() + xOffset);
+            application.getStage().setY(event.getScreenY() + yOffset);
+        });
     }
 
     public void processLogin(ActionEvent event) {
         if (application == null){
-            // We are running in isolated FXML, possibly in Scene Builder.
-            // NO-OP.
             errorMessage.setText("Hello " + userId.getText());
         } else {
             if (!application.userLogging(userId.getText(), password.getText())){

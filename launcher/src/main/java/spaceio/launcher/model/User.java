@@ -1,4 +1,4 @@
-package spaceio.game.model;
+package spaceio.launcher.model;
 
 import java.util.HashMap;
 import java.util.Map;
