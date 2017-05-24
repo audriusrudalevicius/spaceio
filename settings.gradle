@@ -1,0 +1,4 @@
+rootProject.name = 'spaceio'
+
+include 'core'
+include 'game'

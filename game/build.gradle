@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven'
+
+mainClassName = 'spaceio.game.MainGame'
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'spaceio.game.MainGame'
+}
+
+dependencies {
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+    compile project(':core')
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['../assets', 'assets-game']
+        }
+    }
+}

@@ -1,0 +1,55 @@
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+
+    compileJava {
+        sourceCompatibility = '1.8'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://central.maven.org/maven2/" }
+        maven { url "https://jitpack.io" }
+        maven { url  "http://dl.bintray.com/jmonkeyengine/org.jmonkeyengine" }
+        maven { url  "http://dl.bintray.com/simsilica/Sim-tools" }
+        maven { url  "https://dl.bintray.com/empirephoenix/VGS-OSS-Releases" }
+    }
+}
+
+allprojects {
+    version = '0.0.1'
+    ext {
+        appName = rootProject.name
+        jmonkeyengine_version = '3.1.0-stable'
+    }
+
+    // to update Alchemist dependency at each gradle refresh
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 3600, 'seconds'
+    }
+}
+
+//buildscript {
+//    repositories {
+//        maven {
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//    }
+//    dependencies {
+//        classpath "gradle.plugin.com.stehno:gradle-natives:0.3.1"
+//    }
+//}
+//
+//run {
+//    systemProperty 'java.library.path', files('assets', 'lib').join(';')
+//}
+//
+//distZip {
+//    into(project.name) {
+//        from 'lib/.'
+//        include '*'
+//        into project.name + '-' + project.version + '/bin'
+//    }
+//}
