@@ -1,6 +1,4 @@
-apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'maven'
 
 dependencies {
     compile fileTree(dir: 'lib', include: ['*.jar'])
@@ -10,7 +8,7 @@ dependencies {
 sourceSets {
     main {
         resources {
-            srcDirs = ['../assets', 'assets-game']
+            srcDirs = ['../assets', 'assets-game', "src/main/java"]
         }
     }
 }

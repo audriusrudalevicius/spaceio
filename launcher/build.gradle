@@ -1,4 +1,3 @@
-apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = 'spaceio.launcher.Launcher'
@@ -15,7 +14,7 @@ dependencies {
 sourceSets {
     main {
         resources {
-            srcDirs = ['../assets', 'assets-game']
+            srcDirs = ['../assets', 'assets-launcher', "src/main/java"]
         }
     }
 }

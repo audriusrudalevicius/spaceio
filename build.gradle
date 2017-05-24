@@ -19,6 +19,7 @@ subprojects {
 }
 
 allprojects {
+    group = 'spaceio'
     version = '0.0.1'
     ext {
         appName = rootProject.name
