@@ -1,5 +1,9 @@
 apply plugin: 'application'
 
+mainClassName = 'spaceio.game.SpaceGameApplication'
+ext.mainClass = 'spaceio.game.SpaceGameApplication'
+
+
 dependencies {
     compile fileTree(dir: 'lib', include: ['*.jar'])
     compile project(':core')

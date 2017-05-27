@@ -2,6 +2,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'maven'
+    apply plugin: 'findbugs'
 
     compileJava {
         sourceCompatibility = '1.8'
@@ -15,6 +16,14 @@ subprojects {
         maven { url  "http://dl.bintray.com/jmonkeyengine/org.jmonkeyengine" }
         maven { url  "http://dl.bintray.com/simsilica/Sim-tools" }
         maven { url  "https://dl.bintray.com/empirephoenix/VGS-OSS-Releases" }
+    }
+
+    dependencies {
+        // https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305
+        compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+
+        // https://mvnrepository.com/artifact/com.google.code.findbugs/findbugs
+        compile group: 'com.google.code.findbugs', name: 'findbugs', version: '3.0.1'
     }
 }
 
@@ -31,26 +40,3 @@ allprojects {
         resolutionStrategy.cacheChangingModulesFor 3600, 'seconds'
     }
 }
-
-//buildscript {
-//    repositories {
-//        maven {
-//            url "https://plugins.gradle.org/m2/"
-//        }
-//    }
-//    dependencies {
-//        classpath "gradle.plugin.com.stehno:gradle-natives:0.3.1"
-//    }
-//}
-//
-//run {
-//    systemProperty 'java.library.path', files('assets', 'lib').join(';')
-//}
-//
-//distZip {
-//    into(project.name) {
-//        from 'lib/.'
-//        include '*'
-//        into project.name + '-' + project.version + '/bin'
-//    }
-//}
