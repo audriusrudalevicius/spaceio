@@ -1,13 +1,13 @@
 package spaceio.game.view.common;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import spaceio.game.SpaceGameApplication;
 
 public class Lighting extends AbstractAppState {
 
@@ -15,7 +15,7 @@ public class Lighting extends AbstractAppState {
     AmbientLight ambient;
 
     private AppStateManager stateManager;
-    private SimpleApplication app;
+    private SpaceGameApplication app;
 
     public DirectionalLight getSun() {
         return this.sun;
@@ -25,7 +25,7 @@ public class Lighting extends AbstractAppState {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.stateManager = stateManager;
-        this.app = (SimpleApplication) app;
+        this.app = (SpaceGameApplication) app;
 
         /** A white, directional light source */
         sun = new DirectionalLight();

@@ -1,7 +1,6 @@
 package spaceio.game.engine;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
@@ -13,6 +12,7 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
@@ -21,6 +21,7 @@ import de.lessvoid.nifty.Nifty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spaceio.core.event.GameSessionEvent;
+import spaceio.game.SpaceGameApplication;
 import spaceio.game.gui.intro.IntroScreenDefinition;
 import spaceio.game.scene.MainMenuSceneState;
 import spaceio.game.utils.Params;
@@ -28,7 +29,7 @@ import spaceio.game.utils.ScreenSettings;
 
 public class GameEngine extends AbstractAppState {
     private static Logger logger = LoggerFactory.getLogger(GameEngine.class);
-    public SimpleApplication jmonkeyApp;
+    public SpaceGameApplication jmonkeyApp;
     private AppStateManager stateManager;
     private AssetManager assetManager;
     private Nifty niftyGUI;
@@ -38,6 +39,8 @@ public class GameEngine extends AbstractAppState {
     private Camera cam;
     private InputManager inputManager;
     private ViewPort guiViewPort;
+    private Node overlayRoot = new Node("Overlay Root");
+    private Node toolsRoot = new Node("Tools Root");
 
     private ActionListener actionListener = (name, keyPressed, tpf) -> {
         if (name.equals("Toggle Full Screen") && !keyPressed)
@@ -51,15 +54,17 @@ public class GameEngine extends AbstractAppState {
 
         Params.screenHeight = app.getContext().getSettings().getHeight();
         super.initialize(stateManager, app);
-        this.jmonkeyApp = (SimpleApplication) app;
+        this.jmonkeyApp = (SpaceGameApplication) app;
 
-        this.loadResources();
+        loadResources();
+        loadRoots();
 
         NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, jmonkeyApp.getAudioRenderer(), guiViewPort);
         guiViewPort.addProcessor(niftyDisplay);
         niftyGUI = niftyDisplay.getNifty();
 
-        this.loadGameControls();
+        loadGameControls();
+
         inputManager.setCursorVisible(false);
 
         if (Params.showIntro) {
@@ -75,13 +80,19 @@ public class GameEngine extends AbstractAppState {
         }
     }
 
+    private void loadRoots() {
+        ViewPort view = jmonkeyApp.getRenderManager().createPostView("Overlay", cam);
+        view.attachScene(overlayRoot);
+        jmonkeyApp.getViewPort().attachScene(toolsRoot);
+    }
+
     private void loadMainMenu() {
         stateManager.attach(new MainMenuSceneState());
         inputManager.setCursorVisible(true);
     }
 
     private void loadGameControls() {
-        inputManager.deleteMapping(SimpleApplication.INPUT_MAPPING_EXIT);
+        inputManager.deleteMapping(SpaceGameApplication.INPUT_MAPPING_EXIT);
 
         String[] mappings = {"Toggle Full Screen"};
 
@@ -107,6 +118,7 @@ public class GameEngine extends AbstractAppState {
 
         jmonkeyApp.setSettings(settings);
         jmonkeyApp.restart();
+        jmonkeyApp.reshape(settings.getWidth(), settings.getHeight());
     }
 
     private void loadResources() {
@@ -118,6 +130,28 @@ public class GameEngine extends AbstractAppState {
         guiViewPort = jmonkeyApp.getGuiViewPort();
         guiNode = jmonkeyApp.getGuiNode();
         rootNode = jmonkeyApp.getRootNode();
+    }
+
+    @Override
+    public void update(float tpf) {
+        overlayRoot.updateLogicalState(tpf);
+        toolsRoot.updateLogicalState(tpf);
+        super.update(tpf);
+    }
+
+    @Override
+    public void render(RenderManager rm) {
+        overlayRoot.updateGeometricState();
+        toolsRoot.updateGeometricState();
+        super.render(rm);
+    }
+
+    public Node getOverlayRoot() {
+        return overlayRoot;
+    }
+
+    public Node getToolsRoot() {
+        return toolsRoot;
     }
 
     private class GameListener {

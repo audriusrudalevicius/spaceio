@@ -16,6 +16,7 @@ subprojects {
         maven { url  "http://dl.bintray.com/jmonkeyengine/org.jmonkeyengine" }
         maven { url  "http://dl.bintray.com/simsilica/Sim-tools" }
         maven { url  "https://dl.bintray.com/empirephoenix/VGS-OSS-Releases" }
+        maven { url  "http://bits.netbeans.org/maven2/" }
     }
 
     dependencies {

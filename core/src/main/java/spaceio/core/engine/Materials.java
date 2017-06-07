@@ -1,7 +1,7 @@
 package spaceio.core.engine;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
+import com.jme3.app.LegacyApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.material.Material;
@@ -71,7 +71,7 @@ public class Materials extends AbstractAppState {
     private Material matStoneWall;
 
     private AppStateManager stateManager;
-    private SimpleApplication app;
+    private LegacyApplication app;
 
     private int currentMaterialId;
 
@@ -79,7 +79,7 @@ public class Materials extends AbstractAppState {
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.stateManager = stateManager;
-        this.app = (SimpleApplication) app;
+        this.app = (LegacyApplication) app;
 
         //Random color
         matRandomColor = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");

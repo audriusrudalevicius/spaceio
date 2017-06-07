@@ -22,20 +22,16 @@ import spaceio.core.engine.movement.MovementFunctions;
 import spaceio.core.event.GameSessionEvent;
 import spaceio.game.engine.GameSessionStateInterface;
 import spaceio.game.scene.debugScene.DebugSceneRenderState;
-import spaceio.game.view.EditorPanelState;
-import spaceio.game.view.common.DebugHud;
-import spaceio.game.view.common.Hud;
-import spaceio.game.view.common.Lighting;
-import spaceio.game.view.common.PlayerMovementState;
-import spaceio.game.view.common.SkyState;
-import spaceio.game.view.render.Renderer;
+import spaceio.game.view.common.*;
+import spaceio.game.view.editor.DebugHud;
+import spaceio.game.view.editor.WorldEditorState;
 import spaceio.game.view.render.OctantSelectionManager;
+import spaceio.game.view.render.Renderer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jme3.app.SimpleApplication.INPUT_MAPPING_EXIT;
-import static com.jme3.app.SimpleApplication.INPUT_MAPPING_HIDE_STATS;
+import static spaceio.game.SpaceGameApplication.INPUT_MAPPING_HIDE_STATS;
 
 public class DebugGameSceneState extends CompositeAppState implements GameSessionStateInterface {
 
@@ -85,12 +81,14 @@ public class DebugGameSceneState extends CompositeAppState implements GameSessio
         states.add(new SkyState());
         states.add(new PlayerMovementState());
         states.add(new DebugSceneRenderState());
-        states.add(new EditorPanelState());
+        states.add(new WorldEditorState());
 
         InputMapper inputMapper = GuiGlobals.getInstance().getInputMapper();
         MainFunctions.initializeDefaultMappings(inputMapper);
         inputMapper.activateGroup(MainFunctions.GROUP);
         MovementFunctions.initializeDefaultMappings(inputMapper);
+
+        inputMapper.addDelegate(MainFunctions.F_TOGGLE_EDITOR, this, "toggleEditor");
     }
 
     @Override
@@ -98,6 +96,7 @@ public class DebugGameSceneState extends CompositeAppState implements GameSessio
         InputMapper inputMapper = GuiGlobals.getInstance().getInputMapper();
         inputMapper.deactivateGroup(MainFunctions.GROUP);
         EventBus.publish(GameSessionEvent.sessionEnded, new GameSessionEvent());
+        inputMapper.removeDelegate(MainFunctions.F_TOGGLE_EDITOR_TOOLS, this, "toggleEditor");
         super.cleanup(app);
     }
 
@@ -127,16 +126,15 @@ public class DebugGameSceneState extends CompositeAppState implements GameSessio
         getStateManager().detach(this);
     }
 
+    public void toggleEditor() {
+        if (getStateManager().getState(WorldEditorState.class) != null) {
+            getStateManager().getState(WorldEditorState.class).toggleEnabled();
+        }
+    }
+
     private class AppActionListener implements ActionListener {
-
         public void onAction(String name, boolean value, float tpf) {
-            if (!value) {
-                return;
-            }
-
-            if (name.equals(INPUT_MAPPING_EXIT)) {
-                onDisable();
-            } else if (name.equals(INPUT_MAPPING_HIDE_STATS)) {
+            if (name.equals(INPUT_MAPPING_HIDE_STATS)) {
                 if (getStateManager().getState(StatsAppState.class) != null) {
                     getStateManager().getState(StatsAppState.class).toggleStats();
                 }

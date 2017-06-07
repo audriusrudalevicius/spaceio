@@ -1,7 +1,6 @@
 package spaceio.game.view.render;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResult;
@@ -13,18 +12,17 @@ import org.slf4j.LoggerFactory;
 import spaceio.core.engine.GeometryGenerators;
 import spaceio.core.engine.Materials;
 import spaceio.core.octree.Octinfo;
+import spaceio.game.SpaceGameApplication;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OctantSelectionManager extends AbstractAppState {
-    private static final Logger log = LoggerFactory.getLogger(OctantSelectionManager.class);
-
     public static final int MAX_DEPTH = 14; //maximum allowed octree and drawing step depth
-
+    private static final Logger log = LoggerFactory.getLogger(OctantSelectionManager.class);
     private byte step = 1; // equals to depth, but with a slightly different meaning
 
-    private SimpleApplication app;
+    private SpaceGameApplication app;
     private AppStateManager sm;
 
     private Geometry geometryUnderCursor;
@@ -44,7 +42,7 @@ public class OctantSelectionManager extends AbstractAppState {
         super.initialize(stateManager, app); //To change body of generated methods, choose Tools | Templates.
         log.info("Initialize");
 
-        this.app = (SimpleApplication)app;
+        this.app = (SpaceGameApplication) app;
         this.sm = stateManager;
 
         geometryUnderCursor = new Geometry("dummy geometry");
@@ -66,7 +64,7 @@ public class OctantSelectionManager extends AbstractAppState {
      * Tracks the current selection of the user. Is called by the renderer.
      *
      * @param collisionResult
-     * @param oi the fictitious octant where the selection should be
+     * @param oi              the fictitious octant where the selection should be
      */
     public void updateSelection(CollisionResult collisionResult, Octinfo oi) {
         if (collisionResult != null) {
@@ -95,22 +93,23 @@ public class OctantSelectionManager extends AbstractAppState {
         return lastSelectionOctinfo;
     }
 
-    public void selectionBoxesClear(){
+    public void selectionBoxesClear() {
         selectionBoxes.detachAllChildren();
     }
 
-    public void selectionBoxesAdd(Octinfo oi){
-        if(selectionBoxes.getChild(oi.toString()) == null)
+    public void selectionBoxesAdd(Octinfo oi) {
+        if (selectionBoxes.getChild(oi.toString()) == null)
             selectionBoxes.attachChild(GeometryGenerators.getCubeByOctinfo(oi, sm.getState(Materials.class).getSelectionBoxMaterial()));
     }
 
     /**
      * Returns a list of Octinfos from all the currently selection boxes
+     *
      * @return
      */
-    public List<Octinfo> selectionBoxesOctinfos(){
+    public List<Octinfo> selectionBoxesOctinfos() {
         List<Octinfo> ois = new ArrayList<Octinfo>();
-        for(Spatial s: selectionBoxes.getChildren()){
+        for (Spatial s : selectionBoxes.getChildren()) {
             ois.add((Octinfo) s.getUserData("Octinfo"));
         }
         return ois;
@@ -129,7 +128,7 @@ public class OctantSelectionManager extends AbstractAppState {
 
     public void stepIncrease() {
         if (step < MAX_DEPTH) {
-            app.getFlyByCamera().setMoveSpeed(app.getFlyByCamera().getMoveSpeed()/2f);
+            app.getFlyByCamera().setMoveSpeed(app.getFlyByCamera().getMoveSpeed() / 2f);
             this.step++;
         }
         log.info("New step: " + step);
@@ -137,7 +136,7 @@ public class OctantSelectionManager extends AbstractAppState {
 
     public void stepDecrease() {
         if (step > (byte) 0) {
-            app.getFlyByCamera().setMoveSpeed(app.getFlyByCamera().getMoveSpeed()*2f);
+            app.getFlyByCamera().setMoveSpeed(app.getFlyByCamera().getMoveSpeed() * 2f);
             this.step--;
         }
         log.info("New step: " + step);

@@ -64,6 +64,9 @@ dependencies {
 //    compile "com.simsilica:sim-math:1.1.1"  // break sim-ethereal 1.2.1
     compile "com.simsilica:sim-ethereal:1.2.1"
 
+    // https://mvnrepository.com/artifact/org.netbeans.api/org-openide-nodes
+    compile group: 'org.netbeans.api', name: 'org-openide-nodes', version: 'RELEASE69'
+
     // Tests
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

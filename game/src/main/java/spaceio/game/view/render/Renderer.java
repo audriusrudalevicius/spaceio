@@ -1,7 +1,6 @@
 package spaceio.game.view.render;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResult;
@@ -24,6 +23,7 @@ import spaceio.core.octree.Octant;
 import spaceio.core.octree.Octinfo;
 import spaceio.core.octree.Octree;
 import spaceio.core.octree.OctreeListener;
+import spaceio.game.SpaceGameApplication;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -36,7 +36,7 @@ public class Renderer extends AbstractAppState implements OctreeListener{
 
     private static final float SELECT_PRECISION = 0.0001f;
     private static final Logger logger = LoggerFactory.getLogger(Renderer.class.getCanonicalName());
-    private SimpleApplication app;
+    private SpaceGameApplication app;
     private AppStateManager stateManager;
     private Octree octree;
     private Node octantsScenegraphRoot;
@@ -55,7 +55,7 @@ public class Renderer extends AbstractAppState implements OctreeListener{
     public void initialize(AppStateManager stateManager, Application app) {
         logger.info("Initialize");
         super.initialize(stateManager, app);
-        this.app = (SimpleApplication) app;
+        this.app = (SpaceGameApplication) app;
         this.stateManager = stateManager;
         octantsScenegraphRoot = new Node("octants root node");
         selectionObjectScenegraphRoot = new Node("selection object root node");

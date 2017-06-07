@@ -38,13 +38,17 @@ public class SpaceGameApplication extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         disableJmonkeyHUD();
-
         GuiGlobals.initialize(this);
         GuiGlobals globals = GuiGlobals.getInstance();
         BaseStyles.loadGlassStyle();
         globals.getStyles().setDefaultStyle(GameConstants.DEFAULT_GUI_STYLE);
 
         stateManager.attach(new GameEngine());
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 
     private void disableJmonkeyHUD() {

@@ -1,7 +1,6 @@
-package spaceio.game.view.common;
+package spaceio.game.view.editor;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -25,11 +24,13 @@ import jme3tools.optimize.GeometryBatchFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spaceio.core.engine.MainFunctions;
+import spaceio.game.SpaceGameApplication;
+import spaceio.game.view.common.PlayerMovementState;
 
 public class DebugHud extends BaseAppState {
 
     private static final Logger logger = LoggerFactory.getLogger(DebugHud.class);
-    private SimpleApplication app;
+    private SpaceGameApplication app;
     private AssetManager assetManager;
     private Node debugNode;
     private VersionedReference<Vector3f> worldLoc;
@@ -57,7 +58,7 @@ public class DebugHud extends BaseAppState {
     @Override
     public void initialize(Application app) {
         logger.info("Initialize");
-        this.app = (SimpleApplication) app;
+        this.app = (SpaceGameApplication) app;
         assetManager = app.getAssetManager();
         debugNode = new Node("Debug render node");
 
@@ -217,13 +218,13 @@ public class DebugHud extends BaseAppState {
     protected void onEnable() {
         app.getGuiNode().attachChild(debugHud);
         app.getGuiNode().attachChild(debugNode);
-        app.getRootNode().attachChild(coordinatesNode);
+//        app.getRootNode().attachChild(coordinatesNode);
     }
 
     @Override
     protected void onDisable() {
         debugHud.removeFromParent();
         debugNode.removeFromParent();
-        coordinatesNode.removeFromParent();
+//        coordinatesNode.removeFromParent();
     }
 }

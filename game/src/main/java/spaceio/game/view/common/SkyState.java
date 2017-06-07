@@ -1,11 +1,11 @@
 package spaceio.game.view.common;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial;
 import com.jme3.util.SkyFactory;
+import spaceio.game.SpaceGameApplication;
 
 import javax.annotation.Nonnull;
 
@@ -25,7 +25,7 @@ public class SkyState extends BaseAppState {
 
     @Override
     protected void onEnable() {
-        ((SimpleApplication) getApplication()).getRootNode().attachChild(sky);
+        ((SpaceGameApplication) getApplication()).getRootNode().attachChild(sky);
     }
 
     @Override
