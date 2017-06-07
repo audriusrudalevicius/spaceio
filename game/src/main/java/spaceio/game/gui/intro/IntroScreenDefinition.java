@@ -5,20 +5,24 @@ import de.lessvoid.nifty.builder.EffectBuilder;
 import de.lessvoid.nifty.builder.LayerBuilder;
 import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.screen.DefaultScreenController;
-import spaceio.game.gui.menu.MainMenuScreenDefinition;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.Callable;
 
 public class IntroScreenDefinition {
 
     public static String NAME = "intro-screen";
 
-    public static void register(@Nonnull final Nifty nifty) {
+    public static void register(@Nonnull final Callable callable, @Nonnull final Nifty nifty) {
         new ScreenBuilder(NAME) {{
             controller(new DefaultScreenController() {
                 @Override
                 public void onStartScreen() {
-                    nifty.gotoScreen(MainMenuScreenDefinition.NAME);
+                    try {
+                        callable.call();
+                    } catch (Exception e) {
+                        // do nothing.
+                    }
                 }
             });
 

@@ -58,6 +58,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.aparapi/aparapi-jni
     compile group: 'com.aparapi', name: 'aparapi-jni', version: '1.1.2'
 
+    // Simsilica
+    compile "com.simsilica:sio2:1.1.0"
+    compile "com.simsilica:sim-math:1.0.2"
+//    compile "com.simsilica:sim-math:1.1.1"  // break sim-ethereal 1.2.1
+    compile "com.simsilica:sim-ethereal:1.2.1"
 
     // Tests
     testCompile group: 'junit', name: 'junit', version: '4.11'

@@ -8,6 +8,9 @@ public class ScreenSettings {
 
     public ScreenSettings() {
         gameScreen = new AppSettings(true);
+
+        gameScreen.setWidth(Params.defaultScreenWidth);
+        gameScreen.setHeight(Params.defaultScreenHeight);
     }
 
     public static AppSettings generate()
